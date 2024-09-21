@@ -1,0 +1,18 @@
+    if request.method == 'POST':
+        listing = Listing(title = request.POST["title"], description = request.POST["description"], bid = request.POST["bid"])
+        listing.save()
+
+    if request.method == "POST":
+        new_bid = float(request.POST["bid"])
+        if new_bid > listing.bid:
+            listing.bid = new_bid
+            return HttpResponse(reverse("listing", args=(listing.id,)))
+
+    <form action="{% url 'listing' id=listing.id %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="bid">Bid</label>
+            <input type="number" class="form-control" name="bid" placeholder="Bid">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
